@@ -67,13 +67,23 @@ export const getAllCountries = async (): Promise<Country[]> => {
 /**
  * Fetch a single country by code
  */
-export const getCountryByCode = async (code: string): Promise<Country> => {
+export const getCountryByCode = async (code: string): Promise<Country | null> => {
   try {
     const response = await fetch(`${BASE_URL}/alpha/${code}`);
+    
     if (!response.ok) {
+      if (response.status === 404) {
+        console.warn(`Country with code ${code} not found`);
+        return null;
+      }
       throw new Error(`Error fetching country: ${response.statusText}`);
     }
+    
     const data: Country[] = await response.json();
+    
+    if (!data || data.length === 0) {
+      return null;
+    }
     
     // Add likes property
     return {
@@ -82,7 +92,7 @@ export const getCountryByCode = async (code: string): Promise<Country> => {
     };
   } catch (error) {
     console.error(`Failed to fetch country with code ${code}:`, error);
-    throw error;
+    return null;
   }
 };
 
