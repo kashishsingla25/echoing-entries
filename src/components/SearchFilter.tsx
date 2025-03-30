@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useBlog } from '@/context/BlogContext';
 
 const regions = [
-  { value: '', label: 'All Regions' },
+  { value: 'all', label: 'All Regions' }, // Changed from empty string to 'all'
   { value: 'africa', label: 'Africa' },
   { value: 'americas', label: 'Americas' },
   { value: 'asia', label: 'Asia' },
